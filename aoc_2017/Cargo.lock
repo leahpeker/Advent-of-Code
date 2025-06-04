@@ -5,3 +5,12 @@ version = 4
 [[package]]
 name = "aoc_2017"
 version = "0.1.0"
+dependencies = [
+ "round-to",
+]
+
+[[package]]
+name = "round-to"
+version = "0.1.5"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "6748971297aece58941e34a0406f8ec0c64a2048c74f094a7dd1d98399a0bcc5"
