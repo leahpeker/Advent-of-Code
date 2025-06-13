@@ -1,15 +1,22 @@
 use std::fs::File;
 use std::io::{self, BufRead, BufReader};
+use std::time::Instant;
 pub mod day1;
 pub mod day2;
 pub mod day3;
+pub mod day4;
+pub mod day5;
 
 // use crate::day2::day2_part1;
 // use crate::day2::day2_part1_rewrite;
 // use crate::day2::day2_part2;
 // use crate::day2::day2_part2_rewrite;
 // use crate::day3::day3_part1;
-use crate::day3::day3_part2;
+// use crate::day3::day3_part2;
+// use crate::day4::day4_part1;
+// use crate::day4::day4_part2;
+// use crate::day5::day5_part1;
+use crate::day5::day5_part1;
 
 fn main() {
     // day1_part2();
@@ -24,14 +31,30 @@ fn main() {
     // let steps = day3_part1(312051);
     // println!("{}", steps);
 
-    let value = day3_part2(312051);
+    // let value = day3_part2(312051);
+    // println!("value: {}", value);
+
+    let now = Instant::now();
+
+
+
+    let reader_lines = open_file();
+    // let value = day4_part2(reader_lines);
+    // println!("value: {}", value);
+
+    
+    let value = day5_part1(reader_lines);
     println!("value: {}", value);
+
+    let elapsed = now.elapsed();
+    println!("Elapsed time: {:.2?}", elapsed);
 }
 
 fn open_file() -> std::io::Lines<BufReader<File>> {
-    let file =
-        File::open("/Users/leahpeker/workspace/advent_of_code/aoc_2017/src/inputs/day2_input.txt")
-            .expect("Failed to open file");
+    let file = File::open(
+        "/Users/leahpeker/workspace/advent_of_code/aoc_2017/src/inputs/day5_input.txt",
+    )
+    .expect("Failed to open file");
     let reader = io::BufReader::new(file);
     reader.lines()
 }

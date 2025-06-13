@@ -2,31 +2,8 @@ use round_to::*;
 use std::collections::HashMap;
 
 pub fn day3_part1(number: i32) -> i32 {
-    //1 -> 8 -> 16 -> 24 -> 32
-    // if # is 32 for example, i'll be in the 3rd level on the 7th position (8+16 = 24 -> ) 32 - 24 = 8 ->
-    // if # is 8, it'll be in the first level in the 7th position
-    // if # is 16, it'll be in 2nd row in 7th position
-
-    // s^2
-    // if # is 8 -> sqrt(8) -> 3x3
-    // if # is 16 -> sqrt(4) -> 5x5
-    // if # is 32 -> sqrt(32) -> 7x7
-
-    //2n+1
-
-    // (2n+1)^2 = max
-    // (2(n-1)^2 +1 = min
-
-    // 4 midpts
-    // min is always (n-1) away from first V midpt
-
-    //first find the value of n
-    // then do a match
-
     let n = (((number as f64).sqrt().ceil() + 1.0) / 2.0).ceil_to_i32();
-
     let grid_size = 2 * n - 1;
-
     let min = (grid_size - 2).pow(2) + 1;
 
     let mut steps = n - 1;
@@ -69,9 +46,9 @@ pub fn day3_part2(number: i32) -> i32 {
     let mut n = 1;
     let mut prev_node = (0, 0);
 
-    while true {
+    loop {
         let mut curr_node: (i32, i32) = (prev_node.0 + 1, prev_node.1);
-        let node_value = get_node_value(curr_node, spiral.clone());
+        let node_value = get_node_value(curr_node, &spiral);
         if node_value > number {
             return node_value;
         }
@@ -85,7 +62,7 @@ pub fn day3_part2(number: i32) -> i32 {
             // go up
             curr_node = (curr_node.0, y);
 
-            let node_value = get_node_value(curr_node, spiral.clone());
+            let node_value = get_node_value(curr_node, &spiral);
             if node_value > number {
                 return node_value;
             }
@@ -99,7 +76,7 @@ pub fn day3_part2(number: i32) -> i32 {
             // go left
             curr_node = (x, curr_node.1);
 
-            let node_value = get_node_value(curr_node, spiral.clone());
+            let node_value = get_node_value(curr_node, &spiral);
             if node_value > number {
                 return node_value;
             }
@@ -113,7 +90,7 @@ pub fn day3_part2(number: i32) -> i32 {
             // go down
             curr_node = (curr_node.0, y);
 
-            let node_value = get_node_value(curr_node, spiral.clone());
+            let node_value = get_node_value(curr_node, &spiral);
             if node_value > number {
                 return node_value;
             }
@@ -126,7 +103,7 @@ pub fn day3_part2(number: i32) -> i32 {
             // go right
             curr_node = (x, curr_node.1);
 
-            let node_value = get_node_value(curr_node, spiral.clone());
+            let node_value = get_node_value(curr_node, &spiral);
             if node_value > number {
                 return node_value;
             }
@@ -136,19 +113,18 @@ pub fn day3_part2(number: i32) -> i32 {
 
         prev_node = curr_node.clone();
     }
-
-    return 1;
 }
 
-fn get_node_value(curr_node: (i32, i32), spiral: HashMap<(i32, i32), i32>) -> i32 {
+fn get_node_value(curr_node: (i32, i32), spiral: &HashMap<(i32, i32), i32>) -> i32 {
     let mut node_value: i32 = 0;
 
-    for i in -1..=1 {
-        for j in -1..=1 {
-            let node = (&curr_node.0 + i, &curr_node.1 + j);
-            if spiral.contains_key(&node) {
-                node_value += spiral[&node];
+    for dx in -1..=1 {
+        for dy in -1..=1 {
+            if dx == 0 && dy == 0 {
+                continue;
             }
+            let node = (&curr_node.0 + dx, &curr_node.1 + dy);
+            node_value += spiral.get(&node).unwrap_or(&0);
         }
     }
 
