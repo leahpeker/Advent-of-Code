@@ -26,9 +26,6 @@ pub fn day4_part1(lines: Lines<BufReader<File>>) -> i32 {
 
 pub fn day4_part2(lines: Lines<BufReader<File>>) -> i32 {
     let mut valid_line_count = 0;
-    
-
-
 
     for line in lines {
         let unwrapped_line = line.unwrap();
